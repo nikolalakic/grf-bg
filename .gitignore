@@ -129,6 +129,9 @@ dmypy.json
 .pyre/
 #Dodato
 Stampa.png
-/MKE/.idea
-/BetonskeKonstrukcije/.idea
-/MetalneKonstrukcije/.idea
+MKE/.idea
+BetonskeKonstrukcije/.idea
+MetalneKonstrukcije/.idea
+Wiki/detaljifunckionisanja.aux
+Wiki/detaljifunckionisanja.log
+Wiki/detaljifunckionisanja.synctex.gz
