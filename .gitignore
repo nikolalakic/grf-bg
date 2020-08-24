@@ -129,3 +129,6 @@ dmypy.json
 .pyre/
 #Dodato
 Stampa.png
+/MKE/.idea
+/BetonskeKonstrukcije/.idea
+/MetalneKonstrukcije/.idea
