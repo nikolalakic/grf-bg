@@ -1,6 +1,6 @@
 # grf-bg
 ### Python3 skripte za razne proracune elemenata iz betonskih i metalnih konstrukcija po EC
-##### Dokumentacija o nacinu rada skripti iz betonskih konstrukcija je u pdf formatu na ovom [linku](https://github.com/nikolalakic/grf-bg/raw/branch/master/Wiki/detaljifunkcionisanja.pdf), detalji rada skripti iz metala ce biti objavljeni tokom vremena.
+##### Dokumentacija o nacinu rada skripti iz betonskih konstrukcija je u pdf formatu na ovom [linku](https://raw.githubusercontent.com/nikolalakic/grf-bg/master/Wiki/detaljifunkcionisanja.pdf), detalji rada skripti iz metala ce biti objavljeni tokom vremena.
 ##### Demo rada skripti iz betonskih konstrukcija
 ![Alt Text](https://nikolal.keybase.pub/grfcartel_sajt/demo.gif)
 #### _Instalacija:_
