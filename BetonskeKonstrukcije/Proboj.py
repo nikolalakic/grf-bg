@@ -1,8 +1,13 @@
-import math
+import math, os
 import pandas as pd
-df = pd.read_csv('BetonPodaci.csv', delimiter = ';', encoding = 'UTF-8', skipinitialspace = True)
-fck_lista = df['fck [Mpa]'].to_list()
-fckMPA = int(input('Unesi karakteristicnu cvrstocu betona na pritisal fck [MPa]: '))
+
+if 'BetonPodaci.csv' not in os.listdir():
+    print('BetonPodaci.csv se ne nalazi u radnom folderu!')
+    exit()
+else:
+    df = pd.read_csv('BetonPodaci.csv', delimiter = ';', encoding = 'UTF-8', skipinitialspace = True)
+    fck_lista = df['fck [Mpa]'].to_list()
+    fckMPA = int(input('Unesi karakteristicnu cvrstocu betona na pritisal fck [MPa]: '))
 if fckMPA in fck_lista:
     indeks = fck_lista.index(fckMPA)
 else:

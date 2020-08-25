@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-import math
+import math, os
 
 def tpresek():
     iks = 0.001
@@ -150,8 +150,12 @@ d1 = d1/100
 h = d + d1
 Ned = float(input('Unesi aksijalnu silu (pritisak je +): '))
 
-df = pd.read_csv('BetonPodaci.csv', encoding = 'UTF-8', delimiter = ';', skipinitialspace = True)
-fck_lista = df['fck [Mpa]'].to_list()
+if 'BetonPodaci.csv' not in os.listdir():
+    print('BetonPodaci.csv se ne nalazi u radnom folderu!')
+    exit()
+else:
+    df = pd.read_csv('BetonPodaci.csv', encoding = 'UTF-8', delimiter = ';', skipinitialspace = True)
+    fck_lista = df['fck [Mpa]'].to_list()
 
 if fck_MPA in fck_lista:
     indeks = fck_lista.index(fck_MPA)

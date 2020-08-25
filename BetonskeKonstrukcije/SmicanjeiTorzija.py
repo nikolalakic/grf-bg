@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-import math
+import math, os
 
 def Geometrija(b, h, d1):
 #Smicanje
@@ -254,15 +254,19 @@ d1 = float(input('Unesi rastojanje od zategnute ivice do tezista armature d1 [cm
 d1 = d1/100
 d = h - d1
 
-df = pd.read_csv('BetonPodaci.csv', delimiter = ';', encoding = 'UTF-8', skipinitialspace = True)
-fck_lista = df['fck [Mpa]'].to_list()
-fctm_lista = df['fctm [Mpa]'].to_numpy()
-Ecm_lista = df['Ecm [Gpa]'].to_numpy()
-fctk005_lista = df['fctk005 [Mpa]'].to_numpy()
-fi_lista = df['fi [mm]'].to_numpy()
-fi_lista = fi_lista[1:4]
-A_lista = df['A [cm2]']
-A_lista = A_lista[1:4]*math.pow(10, -4)
+if 'BetonPodaci.csv' not in os.listdir():
+    print('BetonPodaci.csv se ne nalazi u radnom folderu!')
+    exit()
+else:
+    df = pd.read_csv('BetonPodaci.csv', delimiter = ';', encoding = 'UTF-8', skipinitialspace = True)
+    fck_lista = df['fck [Mpa]'].to_list()
+    fctm_lista = df['fctm [Mpa]'].to_numpy()
+    Ecm_lista = df['Ecm [Gpa]'].to_numpy()
+    fctk005_lista = df['fctk005 [Mpa]'].to_numpy()
+    fi_lista = df['fi [mm]'].to_numpy()
+    fi_lista = fi_lista[1:4]
+    A_lista = df['A [cm2]']
+    A_lista = A_lista[1:4]*math.pow(10, -4)
 m_niz = [2, 4] 
 if fckMPA in fck_lista:
     indeks = fck_lista.index(fckMPA)

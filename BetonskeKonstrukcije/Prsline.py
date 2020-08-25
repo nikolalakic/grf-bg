@@ -1,12 +1,15 @@
-import math
+import math, os
 import numpy as np
 import pandas as pd
-
-df = pd.read_csv('BetonPodaci.csv', delimiter = ';', skipinitialspace = True, encoding = 'UTF-8')
-fck_lista = df['fck [Mpa]'].to_list()
-Ecm_lista = df['Ecm [Gpa]'].to_numpy()
-fctm_lista = df['fctm [Mpa]'].to_numpy()
-klaseizlozenosti_lista = df['KlaseIzlozenosti'].to_list()
+if 'BetonPodaci.csv' not in os.listdir():
+    print('BetonPodaci.csv se ne nalazi u radnom folderu!')
+    exit()
+else:
+    df = pd.read_csv('BetonPodaci.csv', delimiter = ';', skipinitialspace = True, encoding = 'UTF-8')
+    fck_lista = df['fck [Mpa]'].to_list()
+    Ecm_lista = df['Ecm [Gpa]'].to_numpy()
+    fctm_lista = df['fctm [Mpa]'].to_numpy()
+    klaseizlozenosti_lista = df['KlaseIzlozenosti'].to_list()
 print('>>>Skripta daje rezultat za savijanje za preseke sa rebrastom armaturom bez prednaprezanja!<<<')
 klasaizlozenosti = str(input('\nUnesi klasu izlozenosti (x0,xc1, xc2, itd): '))
 klasaizlozenosti = klasaizlozenosti.lower()

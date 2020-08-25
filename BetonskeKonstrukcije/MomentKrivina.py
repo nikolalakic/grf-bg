@@ -1,4 +1,4 @@
-import math
+import math, os
 import matplotlib as mp
 import matplotlib.pyplot as plt
 import numpy as np
@@ -107,10 +107,14 @@ d1 = d1/100
 h = d + d1
 fckMPA = int(input('Unesi karakteristicnu cvrstocu betona [MPa]: '))
 
-df = pd.read_csv('BetonPodaci.csv', delimiter = ';', skipinitialspace = True, encoding = 'UTF-8')
-fck_lista = df['fck [Mpa]'].to_list()
-fctm_lista = df['fctm [Mpa]'].to_list()
-Ecm_lista = df['Ecm [Gpa]'].to_list()
+if 'BetonPodaci.csv' not in os.listdir():
+    print('BetonPodaci.csv se ne nalazi u radnom folderu!')
+    exit()
+else:
+    df = pd.read_csv('BetonPodaci.csv', delimiter = ';', skipinitialspace = True, encoding = 'UTF-8')
+    fck_lista = df['fck [Mpa]'].to_list()
+    fctm_lista = df['fctm [Mpa]'].to_list()
+    Ecm_lista = df['Ecm [Gpa]'].to_list()
 
 if fckMPA in fck_lista:
     indeks = fck_lista.index(fckMPA) 

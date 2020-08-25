@@ -1,5 +1,5 @@
 import numpy as np
-import math
+import math, os
 import pandas as pd
 
 MEd = float(input('Unesi proracunski momenat savijanja MEd [kNm]: '))
@@ -18,8 +18,12 @@ d = h - d1
 MEds = MEd + NEd*(h/2 - d1)
 fckMPa = int(input('Unesi karakteristicnu cvrstocu betona na pritisak fck [MPa]: '))
 
-df = pd.read_csv('BetonPodaci.csv', delimiter=';', skipinitialspace=True, encoding='UTF-8')
-fck_niz = df['fck [Mpa]'].to_list()
+if 'BetonPodaci.csv' not in os.listdir():
+    print('BetonPodaci.csv se ne nalazi u radnom folderu!')
+    exit()
+else:
+    df = pd.read_csv('BetonPodaci.csv', delimiter=';', skipinitialspace=True, encoding='UTF-8')
+    fck_niz = df['fck [Mpa]'].to_list()
 
 def ravnoteza():
     es1 = 0

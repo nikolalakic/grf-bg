@@ -1,4 +1,4 @@
-import math
+import math, os
 import pandas as pd
 import numpy as np
 
@@ -150,11 +150,14 @@ def uticajiarmatura(MEd, NEd):
         if sigma1 >= 0:
             maliekscentricitet(d1)
             exit()
-
-df = pd.read_csv('BetonPodaci.csv', delimiter = ';', encoding = 'UTF-8', skipinitialspace = True)
-fck_lista = df['fck [Mpa]'].to_list()
-fctm_lista = df['fctm [Mpa]'].to_numpy()
-Ecm_lista = df['Ecm [Gpa]'].to_numpy()
+if 'BetonPodaci.csv' not in os.listdir():
+    print('BetonPodaci.csv se ne nalazi u radnom folderu!')
+    exit()
+else:
+    df = pd.read_csv('BetonPodaci.csv', delimiter = ';', encoding = 'UTF-8', skipinitialspace = True)
+    fck_lista = df['fck [Mpa]'].to_list()
+    fctm_lista = df['fctm [Mpa]'].to_numpy()
+    Ecm_lista = df['Ecm [Gpa]'].to_numpy()
 
 MEd = float(input('Unesi proracunski moment savijanja MEd [KNm]: '))
 MEd = abs(MEd)

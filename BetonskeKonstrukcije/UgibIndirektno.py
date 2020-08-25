@@ -1,4 +1,4 @@
-import math
+import math, os
 import pandas as pd
 
 l = float(input('Unesi raspon grede l [m]: '))
@@ -35,8 +35,12 @@ elif l/d > granica:
 print('l/d, stvarno = ', l/d)
 print('l/d, lim = ', granica)
 
-df = pd.read_csv('BetonPodaci.csv', delimiter = ';', encoding = 'UTF-8', skipinitialspace = True)
-fck_lista = df['fck [Mpa]'].to_list()
+if 'BetonPodaci.csv' not in os.listdir():
+    print('BetonPodaci.csv se ne nalazi u radnom folderu!')
+    exit()
+else:
+    df = pd.read_csv('BetonPodaci.csv', delimiter = ';', encoding = 'UTF-8', skipinitialspace = True)
+    fck_lista = df['fck [Mpa]'].to_list()
 if fckMPA in fck_lista:
     indeks = fck_lista.index(fckMPA)
 else:
