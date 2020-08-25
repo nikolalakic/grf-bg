@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import sympy as sp
-import math
+import math, os
 
 x, y = sp.symbols('x y')
 w_xy_niz_sym = np.array([1, x, y, sp.Pow(x, 2), x*y, sp.Pow(y, 2), sp.Pow(x, 3), sp.Pow(x, 2)*y, x*sp.Pow(y, 2), sp.Pow(y, 3), sp.Pow(x, 3)*y, x*sp.Pow(y, 3)])
@@ -9,6 +9,9 @@ w_xy_sym = sum(w_xy_niz_sym)
 fi_x_sym = sp.diff(w_xy_sym, y)
 fi_y_sym = sp.diff(-w_xy_sym, x)
 
+if 'Podaci.csv' not in os.listdir():
+ print('Fali fajl pod nazivom "Podaci.csv", ako je obrisan skini ga sa riznice https://github.com/nikolalakic/grf-bg/tree/master/MKE')
+ exit()
 df = pd.read_csv('Podaci.csv', delimiter=',', encoding='UTF-8', skipinitialspace=True)
 x_koordinate = df['x [m]'].to_numpy()
 y_koordinate = df['y [m]'].to_numpy()
