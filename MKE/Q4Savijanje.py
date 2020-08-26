@@ -9,10 +9,10 @@ w_xy_sym = sum(w_xy_niz_sym)
 fi_x_sym = sp.diff(w_xy_sym, y)
 fi_y_sym = sp.diff(-w_xy_sym, x)
 
-if 'Podaci.csv' not in os.listdir():
- print('Fali fajl pod nazivom "Podaci.csv", ako je obrisan skini ga sa riznice https://github.com/nikolalakic/grf-bg/tree/master/MKE')
+if 'Q4SavijanjePodaci.csv' not in os.listdir():
+ print('Fali fajl pod nazivom "Q4SavijanjePodaci.csv", ako je obrisan skini ga sa riznice https://github.com/nikolalakic/grf-bg/tree/master/MKE')
  exit()
-df = pd.read_csv('Podaci.csv', delimiter=',', encoding='UTF-8', skipinitialspace=True)
+df = pd.read_csv('Q4SavijanjePodaci.csv', delimiter=',', encoding='UTF-8', skipinitialspace=True)
 x_koordinate = df['x [m]'].to_numpy()
 y_koordinate = df['y [m]'].to_numpy()
 a_dimenzija = df['a [m]'].to_numpy()
@@ -241,4 +241,4 @@ if len(pomeranja) != 12:
 #np.savetxt('K.csv', np.round(K, 3), delimiter=',')
 dfk = pd.DataFrame(K, columns=pomeranja)
 dfk[''] = pomeranja
-dfk.to_csv('K.csv', index=False)
+dfk.to_csv('K_Q4_savijanje.csv', index=False)
