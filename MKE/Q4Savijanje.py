@@ -238,7 +238,7 @@ if len(pomeranja) != 12:
  print('\nUkupan broj unetih pomeranja je razlicit od 12! Greska u unosu u Podaci.csv fajlu!')
  exit()
 
-#np.savetxt('K.csv', np.round(K, 3), delimiter=',')
 dfk = pd.DataFrame(K, columns=pomeranja)
 dfk[''] = pomeranja
+dfk['P'] = P
 dfk.to_csv('K_Q4_savijanje.csv', index=False)
