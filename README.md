@@ -26,7 +26,7 @@ Ovo je brzi nacin, ali se za svaku promenu koda ili dodavanja novih skripti mora
 
 1. Uradi prvo korak _Instalacija da bi instalirao Python_, potom otvori PowerShell kao administrator i nalepi ovo (nalepis tako sto kliknes desnim klikom u PowerShell): `Set-ExecutionPolicy RemoteSigned -scope CurrentUser` i stisni enter, kad te pita nesto samo ukucaj `y` i stisni enter. Potom nalepi ovo `iwr -useb get.scoop.sh | iex` i restartuj PowerShell.
 2. Scoop je instaliran, sad u PowerShell-u nalepi ovo: `scoop install curl git`
-3. Folder sa skriptama skidas tako sto izaberes neki folder (bilo gde, moze i desktop), i drzis _shift_ i kliknes desni klik, i kliknes potom na "Open Powershell window here". Pokreces skidanje foldera sa `git clone https://codeberg.org/nikolal/grf-bg.git`
+3. Folder sa skriptama skidas tako sto izaberes neki folder (bilo gde, moze i desktop), i drzis _shift_ i kliknes desni klik, i kliknes potom na "Open Powershell window here". Pokreces skidanje foldera sa `git clone https://github.com/nikolalakic/grf-bg.git`
 4. Primetices da se folder skinuo i velika prednost ovog nacina je to sto sve promene i najnovije skripte preuzimas pokretanjem PowerShell-a u skinutom folderu sa drzanjem _shift_-a u tom folderu i klikom na desni klik, pa potom "Open PowerShell window here", sve promene dobijas sa kucanjem `git pull` 
 5. Skripte pokreces sa prevlacenjem zeljene skripte u PowerShell-u
 
