@@ -21,6 +21,8 @@ E_lista = df['E [Gpa]'].to_numpy()*math.pow(10, 6) #KPa
 ni_lista = df['ni'].to_numpy()
 t_lista = df['t [m]'].to_numpy()
 p_lista = df['q [kN/m^2]'].to_numpy()
+nepoznata_pomeranja = df['Nepoznata pomeranja (sva)'].to_numpy()
+nepoznata_pomeranja = nepoznata_pomeranja[np.logical_not(np.isnan(nepoznata_pomeranja))]
 p = (p_lista[0])
 t = (t_lista[0])
 ni = (ni_lista[0])
@@ -32,7 +34,7 @@ Ey = Ex
 Exy = Ex*(1-ni)/2
 E1 = ni*Ex
 
-k1_1 = 2/5*(10*Ex*math.pow(b, 4) + 14*math.pow(a*b, 2)*Exy + 5*math.pow(a*b, 2)*E1 + 10*Ey*math.pow(a, 4))/(math.pow(a*b, 3))
+k1_1 = 2/5*(10*Ex*math.pow(b, 4) + 14*math.pow(a*b, 2)*Exy + 5*math.pow(a*b, 2)*E1 + 10*Ey*math.pow(a, 4))/math.pow(a, 3)/math.pow(b, 3)
 k2_1 = 1/5/a*(5*E1*math.pow(b, 2) + 2*math.pow(b, 2)*Exy + 10*Ey*math.pow(a, 2))/math.pow(b, 2)
 k3_1 = -1/5*(10*Ex*math.pow(b, 2) + 5*E1*math.pow(a, 2) + 2*math.pow(a, 2)*Exy)/math.pow(a, 2)/b
 k4_1 = -2/5*(10*Ex*math.pow(b, 4) + 14*math.pow(a*b, 2)*Exy + 5*math.pow(a*b, 2)*E1 - 5*Ey*math.pow(a, 4))/(math.pow(a*b, 3))
@@ -61,10 +63,10 @@ k12_2 = 0
 k1_3 = k3_1
 k2_3 = k3_2
 k3_3 = 4/15*(5*Ex*math.pow(b, 2) + 2*math.pow(a, 2)*Exy)/a/b
-k4_3 = 2/5*(5*Ex*math.pow(b, 2) + math.pow(a, 2)*Exy)/math.pow(a, 2)*b
+k4_3 = 2/5*(5*Ex*math.pow(b, 2) + math.pow(a, 2)*Exy)/math.pow(a, 2)/b
 k5_3 = 0
 k6_3 = 2/15*(5*Ex*math.pow(b, 2) - math.pow(a, 2)*Exy)/a/b
-k7_3 = 1/15*(5*Ex*math.pow(b, 2) + 2*math.pow(a, 2)*Exy)/math.pow(a, 2)/b
+k7_3 = 1/5*(5*Ex*math.pow(b, 2) - 2*math.pow(a, 2)*Exy)/math.pow(a, 2)/b
 k8_3 = 0
 k9_3 = 1/15*(5*Ex*math.pow(b, 2) + 2*math.pow(a, 2)*Exy)/a/b
 k10_3 = -1/5*(5*Ex*math.pow(b, 2) - 5*E1*math.pow(a, 2) - 2*math.pow(a, 2)*Exy)/math.pow(a, 2)/b
@@ -186,7 +188,7 @@ k8_12 = k12_8
 k9_12 = k12_9
 k10_12 = k12_10
 k11_12 = k12_11
-k12_12 = 4/15*(5*Ex*math.pow(b, 2) + math.pow(a, 2)*Exy)/a/b
+k12_12 = 4/15*(5*Ex*math.pow(b, 2) + 2*math.pow(a, 2)*Exy)/a/b
 
 K = np.array([
  [k1_1, k1_2, k1_3, k1_4, k1_5, k1_6, k1_7,  k1_8, k1_9, k1_10, k1_11, k1_12],
@@ -218,21 +220,32 @@ C = np.array([[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
              )
 C_inv = np.linalg.inv(C)
 
-p1 = 1/4*a*b*p
-p2 = 1/24*a*math.pow(b, 2)*p
-p3 = -1/24*math.pow(a, 2)*b*p
-p4 = 1/4*a*b*p
-p5 = 1/24*a*math.pow(b, 2)*p
-p6 = 1/24*math.pow(a, 2)*b*p
-p7 = 1/4*a*b*p
-p8 = -1/24*a*math.pow(b, 2)*p
-p9 = 1/4*a*b*p
-p10 = -1/24*a*math.pow(b, 2)*p
-p11 = -1/24*a*math.pow(b, 2)*p
-p12 = -1/24*math.pow(a, 2)*b*p
+p1 = 1/4*a*b
+p2 = 1/24*a*math.pow(b, 2)
+p3 = -1/24*math.pow(a, 2)*b
+p4 = 1/4*a*b
+p5 = 1/24*a*math.pow(b, 2)
+p6 = 1/24*math.pow(a, 2)*b
+p7 = 1/4*a*b
+p8 = -1/24*a*math.pow(b, 2)
+p9 = 1/24*math.pow(a, 2)*b
+p10 = 1/4*a*b
+p11 = -1/24*a*math.pow(b, 2)
+p12 = -1/24*math.pow(a, 2)*b
 
-
-P = np.array([p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12])
+P = p*np.array([[p1],
+              [p2],
+              [p3],
+              [p4],
+              [p5],
+              [p6],
+              [p7],
+              [p8],
+              [p9],
+              [p10],
+              [p11],
+              [p12]
+              ])
 pomeranja = df['Generalisana pomeranja'].to_numpy()
 if len(pomeranja) != 12:
  print('\nUkupan broj unetih pomeranja je razlicit od 12! Greska u unosu u Podaci.csv fajlu!')
@@ -241,4 +254,22 @@ if len(pomeranja) != 12:
 dfk = pd.DataFrame(K, columns=pomeranja)
 dfk[''] = pomeranja
 dfk['P'] = P
-dfk.to_csv('K_Q4_savijanje.csv', index=False)
+dfk.to_csv('Q4_K_matrica.csv', index=False)
+indeksi = np.arange(0, len(nepoznata_pomeranja))
+if 'K_nn.csv' in os.listdir():
+    dfknn = pd.read_csv('Q4Knn.csv', skipinitialspace=True)
+    Knn = dfknn.to_numpy()
+    dfpn = pd.read_csv('Q4Pnn.csv', delimiter=',')
+    Pn = dfpn['Pn'].to_numpy()
+    inv_Knn = np.linalg.inv(Knn)
+    qnn = np.dot(inv_Knn, Pn)
+    dfqnn = pd.DataFrame(qnn)
+    dfqnn[''] = nepoznata_pomeranja
+    dfqnn.to_csv('Q4qnn.csv', header=['qnn [m]',''], index=False)
+    #if 'qnn.csv' in os.listdir():
+    #    os.remove('qnn.csv')
+    #with open('qnn.csv', 'a') as file:
+    #    file.write(f'qnn [m]\n')
+    #    dfqnn.to_csv(file, header=False, index=False)
+#else:
+# pass
