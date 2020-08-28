@@ -256,7 +256,7 @@ dfk[''] = pomeranja
 dfk['P'] = P
 dfk.to_csv('Q4_K_matrica.csv', index=False)
 indeksi = np.arange(0, len(nepoznata_pomeranja))
-if 'K_nn.csv' in os.listdir():
+if 'Q4Knn.csv' and 'Q4Pnn.csv' in os.listdir():
     dfknn = pd.read_csv('Q4Knn.csv', skipinitialspace=True)
     Knn = dfknn.to_numpy()
     dfpn = pd.read_csv('Q4Pnn.csv', delimiter=',')
@@ -266,10 +266,6 @@ if 'K_nn.csv' in os.listdir():
     dfqnn = pd.DataFrame(qnn)
     dfqnn[''] = nepoznata_pomeranja
     dfqnn.to_csv('Q4qnn.csv', header=['qnn [m]',''], index=False)
-    #if 'qnn.csv' in os.listdir():
-    #    os.remove('qnn.csv')
-    #with open('qnn.csv', 'a') as file:
-    #    file.write(f'qnn [m]\n')
-    #    dfqnn.to_csv(file, header=False, index=False)
-#else:
-# pass
+else:
+    print('Nedostaje matrica Knn ili Pnn, skini ih opet sa git-a.')
+    exit()
