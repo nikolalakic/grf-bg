@@ -1,13 +1,6 @@
 import pandas as pd
 import numpy as np
-import sympy as sp
 import math, os
-
-x, y = sp.symbols('x y')
-w_xy_niz_sym = np.array([1, x, y, sp.Pow(x, 2), x*y, sp.Pow(y, 2), sp.Pow(x, 3), sp.Pow(x, 2)*y, x*sp.Pow(y, 2), sp.Pow(y, 3), sp.Pow(x, 3)*y, x*sp.Pow(y, 3)])
-w_xy_sym = sum(w_xy_niz_sym)
-fi_x_sym = sp.diff(w_xy_sym, y)
-fi_y_sym = sp.diff(-w_xy_sym, x)
 
 if 'Q4SavijanjePodaci.csv' not in os.listdir():
  print('Fali fajl pod nazivom "Q4SavijanjePodaci.csv", ako je obrisan skini ga sa riznice https://github.com/nikolalakic/grf-bg/tree/master/MKE')
@@ -15,6 +8,13 @@ if 'Q4SavijanjePodaci.csv' not in os.listdir():
 df = pd.read_csv('Q4SavijanjePodaci.csv', delimiter=',', encoding='UTF-8', skipinitialspace=True)
 x_koordinate = df['x [m]'].to_numpy()
 y_koordinate = df['y [m]'].to_numpy()
+
+def brisanjenan(niz):
+    niz = niz[np.logical_not(np.isnan(niz))]
+    return niz
+
+x_koordinate = brisanjenan(x_koordinate)
+y_koordinate = brisanjenan(y_koordinate)
 a_dimenzija = df['a [m]'].to_numpy()
 b_dimenzija = df['b [m]'].to_numpy()
 E_lista = df['E [Gpa]'].to_numpy()*math.pow(10, 6) #KPa
@@ -22,7 +22,7 @@ ni_lista = df['ni'].to_numpy()
 t_lista = df['t [m]'].to_numpy()
 p_lista = df['q [kN/m^2]'].to_numpy()
 nepoznata_pomeranja = df['Nepoznata pomeranja (sva)'].to_numpy()
-nepoznata_pomeranja = nepoznata_pomeranja[np.logical_not(np.isnan(nepoznata_pomeranja))]
+nepoznata_pomeranja = brisanjenan(nepoznata_pomeranja)
 p = (p_lista[0])
 t = (t_lista[0])
 ni = (ni_lista[0])
@@ -218,7 +218,6 @@ C = np.array([[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
               [0, 0, 1, 0, 0, 2*b, 0, 0, 0, 3*math.pow(b, 2), 0, 0],
               [0, -1, 0, 0, -b, 0, 0, 0, -math.pow(b, 2), 0, 0, -math.pow(b, 3)]],
              )
-C_inv = np.linalg.inv(C)
 
 p1 = 1/4*a*b
 p2 = 1/24*a*math.pow(b, 2)
@@ -255,7 +254,7 @@ dfk = pd.DataFrame(K, columns=pomeranja)
 dfk[''] = pomeranja
 dfk['P'] = P
 dfk.to_csv('Q4_K_matrica.csv', index=False)
-indeksi = np.arange(0, len(nepoznata_pomeranja))
+
 if 'Q4Knn.csv' and 'Q4Pnn.csv' in os.listdir():
     dfknn = pd.read_csv('Q4Knn.csv', skipinitialspace=True)
     Knn = dfknn.to_numpy()
@@ -267,5 +266,43 @@ if 'Q4Knn.csv' and 'Q4Pnn.csv' in os.listdir():
     dfqnn[''] = nepoznata_pomeranja
     dfqnn.to_csv('Q4qnn.csv', header=['qnn [m]',''], index=False)
 else:
-    print('Nedostaje matrica Knn ili Pnn, skini ih opet sa git-a.')
+    print('Nedostaje Q4Knn.csv ili Q4Pnn.csv, skini ih opet sa git-a.')
     exit()
+if 'Q4q_konacno.csv' not in os.listdir():
+    print('Nedostaje Q4q_konacno.csv, skini opet sa git-a.')
+    exit()
+else:
+    q_konacno = pd.read_csv('Q4q_konacno.csv', delimiter=',', skipinitialspace=True)
+    q1 = q_konacno['q1'].to_numpy()
+    q2 = q_konacno['q2'].to_numpy()
+    q3 = q_konacno['q3'].to_numpy()
+    q4 = q_konacno['q4'].to_numpy()
+
+alfet = np.array([np.dot(np.linalg.inv(C), q1),np.dot(np.linalg.inv(C), q2), np.dot(np.linalg.inv(C), q3), np.dot(np.linalg.inv(C), q4)])
+alfe = np.transpose(alfet)
+dfalfe = pd.DataFrame(alfe, columns=['alfa1', 'alfa2', 'alfa3', 'alfa4'])
+dfalfe.to_csv('Q4alfa_koeficijenti.csv', index=False)
+
+def R_matrica(x, y):
+    R = np.array([[0, 0, 0, -2, 0, 0, -6*x, -2*y, 0, 0, -6*x*y, 0],
+                  [0, 0, 0, 0, 0, -2, 0, 0, -2*x, -6*y, 0, -6*x*y],
+                  [0, 0, 0, 0, -2, 0, 0, -4*x, -4*y, 0, -6*math.pow(x, 2), -6*math.pow(y, 2)]
+                  ])
+    return R
+R1 = R_matrica(x_koordinate[0], y_koordinate[0])
+R2 = R_matrica(x_koordinate[1], y_koordinate[1])
+R3 = R_matrica(x_koordinate[2], y_koordinate[2])
+R4 = R_matrica(x_koordinate[3], y_koordinate[3])
+
+E_matrica = np.array([[Ex, E1, 0],
+                      [E1, Ey, 0],
+                      [0, 0, Exy]
+                      ])
+
+def momenti(tackaRi, n_konacnog_elementa):
+    epsilon = np.dot(tackaRi, alfet[n_konacnog_elementa-1])
+    print(f'\u03B5{n_konacnog_elementa} =', epsilon)
+    sigma = np.dot(E_matrica, epsilon)
+    print(f'\u03C3{n_konacnog_elementa} =', sigma)
+
+momenti(R3, 4)
