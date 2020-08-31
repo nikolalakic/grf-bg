@@ -299,10 +299,12 @@ E_matrica = np.array([[Ex, E1, 0],
                       [0, 0, Exy]
                       ])
 
-def momenti(tackaRi, n_konacnog_elementa):
+def uticaji(n_konacnog_elementa, tackaRi):
     epsilon = np.dot(tackaRi, alfet[n_konacnog_elementa-1])
-    print(f'\u03B5{n_konacnog_elementa} =', epsilon)
     sigma = np.dot(E_matrica, epsilon)
-    print(f'\u03C3{n_konacnog_elementa} =', sigma)
+    napon = 6*sigma/(math.pow(t, 2))/1000
+    print(f'\u03B5{n_konacnog_elementa} =', epsilon, '[1/m]')
+    print(f'\u03C3{n_konacnog_elementa} =', napon, '[MPa]')
+    print(f'M{n_konacnog_elementa} =', sigma, '[KNm]')
 
-momenti(R3, 4)
+uticaji(4, R3)
