@@ -10,7 +10,7 @@ fcd = 0.85*fckMPA/1.5
 fyd = 500/1.15
 esyd = fyd/200000
 nied = NEd/(b*0.01*0.01*h*fcd*1000)
-if nied > 0.6:
+if nied > 0.65:
     print('Normalizovana sila \u03BD,Ed je veca od 0.6! Povecaj marku betona ili dimenzije stuba!')
 else:
     q0 = float(input('Unesi osnovnu vrednost faktora ponasanja q0: '))
