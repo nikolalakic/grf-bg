@@ -42,7 +42,7 @@ def tpresek():
     if ecf < 2:
         beta22 = (8 - ecf)/(4*(6 - ecf))
     if ecf >= 2 and ecf <= 3.5:
-        beta22 = (ecf*(3*ecf-r)+2)/(2*ecf*(3*ecf - 2))
+        beta22 = (ecf*(3*ecf-4)+2)/(2*ecf*(3*ecf - 2))
     elif ecf < 0  and ecf > 3.5:
         print('\nSkripta pravi gresku, dilatacija u betonu u nivou donje ivice flanse nije izmedju 0 i 3.5 promila!')
         exit()
