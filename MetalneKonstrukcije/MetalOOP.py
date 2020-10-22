@@ -79,6 +79,6 @@ class Profil:
         if self.ime_profila in self.lista_profila:
             hi_niz = self.df['hi [mm]'].to_numpy() * math.pow(10, -3)  # [m]
             hi = hi_niz[self.indeks]
-            return hi
+        return hi
 
 dimenzija = Profil()
