@@ -65,7 +65,7 @@ if fckMPa in fck_niz:
         print('Proracun vazi kada je karakteristicna cvrstoca betona na pritisak < 50 [MPa]!')
         exit()
 else:
-    print(f'{fckMPA} nije standardna karakteristicna cvrstoca betona na pritisak!')
+    print(f'{fckMPa} nije standardna karakteristicna cvrstoca betona na pritisak!')
     exit()
 
 ravnoteza()
