@@ -11,7 +11,7 @@
 1. Pokreni download klikom na [link](https://www.python.org/ftp/python/3.8.5/python-3.8.5-amd64.exe) koji ce preuzeti Python3.8 i pokreni instalaciju. Kada se pokrene cekiraj "add to path" i idi na "Custom installation". U "Custom installation" cekiraj sve i nastavi sa instalacijom. Kada se zavrsi pitace te da produzis character limit, samo klikni na plavi tekst koji ti se pokaze.
 To je to, instalacija je uspesna.
 2. Nakon zavrsene instalacije pokreni powershell desnim klikom na start > WindowsPowerShell(admin). Potom ukucaj sledecu komandu:
-`pip install numpy pandas matplotlib sympy`, verovatno ce traziti da azuriras `pip` pa samo ukucaj `python -m pip install --upgrade pip`.
+`pip install numpy pandas matplotlib`, verovatno ce traziti da azuriras `pip` pa samo ukucaj `python -m pip install --upgrade pip`.
 
 To je to, spremno je sve za pokretanje skripti.
 
@@ -32,7 +32,6 @@ Ovo je brzi nacin, ali se za svaku promenu koda ili dodavanja novih skripti mora
 
 #### **Linux/MacOS:**
 
-1. Imas vec pajton, samo ti fale `numpy`,`pandas`, `matplotlib` i `sympy`, instaliras ih kucanjem sledeceg u terminalu: `sudo pip3 install numpy pandas matplotlib sympy`  
 2. Instaliraj git ako vec nisi sa: `sudo apt install git -y`, za Arch Linux: `sudo pacman -S git`
 3. Kloniraj riznicu sa: `git clone https://github.com/nikolalakic/grf-bg.git`
 4. Promeni radni folder sa: `cd grf-bg`
