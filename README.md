@@ -8,7 +8,7 @@
 ##### **Windows:**
 
 
-1. Pokreni download klikom na [link](https://www.python.org/ftp/python/3.8.5/python-3.8.5-amd64.exe) koji ce preuzeti Python3.8 i pokreni instalaciju. Kada se pokrene cekiraj "add to path" i idi na "Custom installation". U "Custom installation" cekiraj sve i nastavi sa instalacijom. Kada se zavrsi pitace te da produzis character limit, samo klikni na plavi tekst koji ti se pokaze.
+1. Pokreni download klikom na [link](https://www.python.org/ftp/python/3.9.0/python-3.9.0-amd64.exe) koji ce preuzeti Python i pokreni instalaciju. Kada se pokrene cekiraj "add to path" i idi na "Custom installation". U "Custom installation" cekiraj sve i nastavi sa instalacijom. Kada se zavrsi pitace te da produzis character limit, samo klikni na plavi tekst koji ti se pokaze.
 To je to, instalacija je uspesna.
 2. Nakon zavrsene instalacije pokreni powershell desnim klikom na start > WindowsPowerShell(admin). Potom ukucaj sledecu komandu:
 `pip install numpy pandas matplotlib`, verovatno ce traziti da azuriras `pip` pa samo ukucaj `python -m pip install --upgrade pip`.
