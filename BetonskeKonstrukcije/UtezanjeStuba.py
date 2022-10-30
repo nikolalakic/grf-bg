@@ -22,8 +22,7 @@ class UtezanjeStuba:
         self.fyd = 500/1.15*1000
         self.esyd = 0.002174
         self.nied = self.NEd/(self.b * self.h * self.fcd)
-        #self.b0 = self.b - 0.05
-        self.b0 = 0.42
+        self.b0 = self.b - 0.08
         h0 = df['Duzina utegnutog elementa h0 [cm]'].to_numpy(dtype=float)
         self.h0 = h0[0]/100
         q0 = df['Faktor ponasanja q0'].to_numpy(dtype=float)
