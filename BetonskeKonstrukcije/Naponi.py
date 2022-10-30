@@ -38,11 +38,14 @@ fcd = float(0.85*fckMPA/1.5)
 fyd = 500/1.15
 ro1 = (As1/(b*100*d*100))
 ro2 = (As2/(b*100*d*100))
-KSI = alfa*(ro1+ro2)*(-1+math.pow(1+(2*(ro1+ro2*d2/d))/(alfa*math.pow(ro2+ro1, 2)), 0.5))
+KSI = alfa*(ro1 + ro2)*(-1 + math.sqrt(1 + (2 * (ro1 + ro2 * d2/d))/(alfa*math.pow(ro1 + ro2, 2))))
 SigmaC = MEd/(b*math.pow(d, 2))/(KSI/2*(1-KSI/3)+alfa*ro2*(1-d2/(KSI*d))*(1-d2/d))/1000
 SigmaS1 = alfa*SigmaC*(1-KSI)/KSI
-print('\n\u03C3c = ', SigmaC, '[MPa]')
-print('\u03C3s1 = ', alfa*SigmaC*(1-KSI)/KSI, '[MPa]')
+SigmaS2 = alfa*SigmaC*(KSI - d2/d)/KSI
+print('\n\u03BE = ' , KSI)
+print('\u03C3c = ', SigmaC, '[MPa]')
+print('\u03c3s1 = ', SigmaS1, '[MPa]')
+print('\u03c3s2 = ', SigmaS2, '[MPa]')
 if SigmaC > 0.45*fckMPA:
     print('\n>>>>>Napon u betonu NE zadovoljava kontrolu za M iz kvazi stalne kombinacije!<<<<<')
 if SigmaC > 0.6*fckMPA:

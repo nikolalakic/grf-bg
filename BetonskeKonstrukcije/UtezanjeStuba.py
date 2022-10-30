@@ -1,59 +1,122 @@
 import math
 import numpy as np
-finiz = np.array([0.503, 0.785, 1.13], dtype=float)
-sniz = np.array([20, 15, 12.5, 10, 7.5], dtype=float)
-NEd = float(input('Unesi normalnu silu NEd [kN]: '))
-b = float(input('Unesi sirinu preseka b [cm]: '))
-h = float(input('Unesi visinu preseka h [cm]: '))
-fckMPA = int(input('Unesi karakteristicnu cvrstocu betona na pritisak fck [MPa]: '))
-fcd = 0.85*fckMPA/1.5
-fyd = 500/1.15
-esyd = fyd/200000
-nied = NEd/(b*0.01*0.01*h*fcd*1000)
-if nied > 0.65:
-    print('Normalizovana sila \u03BD,Ed je veca od 0.65! Povecaj marku betona ili dimenzije stuba!')
-else:
-    q0 = float(input('Unesi osnovnu vrednost faktora ponasanja q0: '))
-    if nied <= 0.2 and q0 <= 2:
-        print('\nPrimenjuju se pravila iz EC2!')
-        exit()
-    if nied > 0.2:
-        b0 = float(input('Unesi sirinu b0 utegnutog preseka (osno rastojanje uzengija u jednom pravcu) [cm]: '))
-        h0 = float(input('Unesi visinu h0 utegnutog preseka (osno rastojanje uzengija u jednom pravcu) [cm]: '))
-        T = float(input('Unesi period oscilovanja konstrukcije u posmatranom pravcu T [s]: '))
-        Tc = float(input('Unesi period Tc [s]: '))
-        n_niz = np.array([int(n) for n in input('Unesi redom broj pojedinacnih razmaka izmedju pridrzanih sipki n odvojenih razmakom (npr: 2 4 3): ').split()])
-        bi_niz = np.array([float(bi) for bi in input('Unesi redom rastojanja bi [cm] uz postovanje prethodnog input-a odvojenih razmakom (npr: 14.4 17 19.2): ').split()])
-        if len(n_niz) != len(bi_niz):
-            print('\nBroj rastojanja ne odgovara unetim rastojanjima!')
-            exit()
-        bi_niz = math.pow(bi_niz, 2)
-        proizvod = np.sum(n_niz*bi_niz)
-        print(proizvod)
-        a = int(input('Ako je armatura klase B unesi 1, ako je klase C unesi 0: '))
-        ObimUzg = float(input('Unesi obim uzengija koje sluze za pridrzavanje [cm]: '))
-        if a == 1 and T >= Tc:
-            mfi = 1.5*(2*q0-1)
-        elif (a == 1 and T < Tc):
-            mfi = 1.5*(1 + 2*(q0-1)*Tc/T)
-        elif ((a == 0) and (T >= Tc)):
-            mfi = 2*q0-1
+import pandas as pd
+import os
+
+class UtezanjeStuba:
+
+    def __init__(self):
+        df = pd.read_csv('SeizmikaPodaci.csv', delimiter=';')
+        self.df = df
+        self.finiz = np.array([0.503, 0.785, 1.13], dtype=float)/10000
+        self.sniz = np.array([20, 15, 12.5, 10, 7.5], dtype=float)/100
+        NEd = df['Normalna sila [kN]'].to_numpy(dtype=float)
+        self.NEd = NEd[0]
+        b = df['b [cm]'].to_numpy(dtype=float)
+        self.b = b[0]/100
+        h = df['h [cm]'].to_numpy(dtype=float)
+        self.h = h[0]/100
+        fckMPA = df['Marka betona fck [Mpa]'].to_numpy(dtype=int)
+        self.fck = fckMPA[0]*1000
+        self.fcd = 0.85*self.fck/1.5
+        self.fyd = 500/1.15*1000
+        self.esyd = 0.002174
+        self.nied = self.NEd/(self.b * self.h * self.fcd)
+        #self.b0 = self.b - 0.05
+        self.b0 = 0.42
+        h0 = df['Duzina utegnutog elementa h0 [cm]'].to_numpy(dtype=float)
+        self.h0 = h0[0]/100
+        q0 = df['Faktor ponasanja q0'].to_numpy(dtype=float)
+        self.q0 = q0[0]
+        self.Tc = 0.5
+        obim_uzengija = df['Obim uzengija za pridrzavanje [cm]'].to_numpy(dtype=float)
+        self.ObimUzg = obim_uzengija[0]/100
+        tip_armature = df['Tip armature'].to_numpy(dtype=str)
+        tip_armature = tip_armature[0]
+        self.tip_armature = tip_armature.upper()
+        T = df['Period oscilovanja T [s]'].to_numpy(dtype=float)
+        self.T = T[0]
+        
+    def Armatura(self):
+        if self.tip_armature == 'B500B':
+            koeficijent = 1.5
+        elif self.tip_armature == 'B500C':
+            koeficijent = 1
         else:
-            mfi = 1 + 2 * (q0 - 1) * Tc / T
-        alfan = 1 - proizvod/(6*b0*h0)
-        for x in finiz:
-            Vsw = x*ObimUzg
-            for p in sniz:
-                alfas = (1 - p / (2 * b0)) * (1 - p / (2 * h0))
-                alfa = alfas * alfan
-                Vco = b0 * h0 * p
-                omegawdprov = (Vsw*fyd)/(Vco*fcd)
-                omegawdreq = 30 * mfi * nied * esyd * b / b0 - 0.035
-                omegawdreq = omegawdreq/alfa
-                if (omegawdprov >= omegawdreq):
-                    print('\nAs(1) = ', x,'[cm^2]', 'na s =', p,'[cm]'+ '............OK!')
-                    break
-                else:
-                    print("\nAs(1) =", x,'[cm^2]', 'na s =', p,'[cm]'+ ' ne zadovoljava')
-                    if x == 1.13 and p == 7.5:
-                        print('\n>>>>>Nedovoljno utezanje stuba!')
+            print('\nTip armature mora biti B500B ili B500C, unesi jednu od dve vrednosti u odgovarajucu kolonu tabele.')
+            koeficijent = None
+            exit()
+        return koeficijent
+       
+    def Mfi(self):
+        koeficijent = self.Armatura()
+        Tc = 0.5
+        if self.T > Tc:
+            mfi = koeficijent * (2 * self.q0 - 1)
+        else:
+            mfi = koeficijent * (1 + 2 * (self.q0 - 1))
+        return mfi
+     
+    def Utezanje(self):
+        if self.nied > 0.65:
+            print('Normalizovana sila \u03BD,Ed je veca od 0.65! Povecaj marku betona ili dimenzije stuba!')
+            exit()
+        elif self.nied <= 0.2 and self.q0 <= 2:
+            print('\nPrimenjuju se pravila iz EC2!')
+            exit()
+        else:
+            print('Normalizovana sila \u03BD,Ed = ',self.nied,  '<= 0.65   OK!')
+            mfi = self.Mfi()
+            bi_niz = self.df['Razmak pridrzanih sipki bi [cm]'].to_numpy(dtype=float)
+            bi_niz = bi_niz/100
+            proizvod = 0
+            for i in bi_niz:
+                proizvod = proizvod + math.pow(i, 2)
+            alfan = 1 - proizvod/(6*self.b0*self.h0)
+            for x in self.finiz:
+                Vsw = x*self.ObimUzg
+                for p in self.sniz:
+                    alfas = (1 - p / (2 * self.b0)) * (1 - p / (2 * self.h0))
+                    alfa = alfas * alfan
+                    Vco = self.b0 * self.h0 * p
+                    omegawdprov = (Vsw*self.fyd)/(Vco*self.fcd)
+                    alfa_omegawdreq = 30 * mfi * self.nied * self.esyd * self.b / self.b0 - 0.035
+                    omegawdreq = alfa_omegawdreq/alfa
+                    precnik = math.sqrt(4*x/math.pi)*1000
+                    if (omegawdprov >= omegawdreq):
+                        print('\n\u03C6 = ',round(precnik, 0), 'na s =', p*100,'[cm]'+ '............OK!')
+                        break
+                    else:
+                        print("\n\u03C6 =", round(precnik, 0),'na s =', p*100,'[cm]'+ ' ne zadovoljava!')
+                        if x == 1.13*math.pow(10, -4) and p == 7.5/100:
+                            print('\n>>>>>Nedovoljno utezanje stuba!')
+            print('omegawdprov = ', omegawdprov)
+            print('omegapwdreq = ', omegawdreq)
+            print('alfas = ', alfas)
+            print('alfan = ', alfan)
+            print('alfa = ', alfa)
+            print('alfa_omega = ', alfa_omegawdreq)
+
+
+def SeizmikaPodaci():
+    fajlovi = os.listdir()
+    try:
+        if 'SeizmikaPodaci.csv' not in fajlovi:
+            podaci = '''Naziv platna;Normalna sila [kN];b [cm];h [cm];Marka betona fck [Mpa];Tip armature;Period oscilovanja T [s];Faktor ponasanja q0;Razmak pridrzanih sipki bi [cm];Duzina utegnutog elementa h0 [cm];Obim uzengija za pridrzavanje [cm]'''
+            os.system(f'echo "{podaci}" >> SeizmikaPodaci.csv')
+            print('\n Napravljen je fajl SeizmikaPodaci.csv, popuni tabelu u fajlu sa odgovarajucim podacima')
+            exit()
+        else:
+            print('Fajl SeizmikaPodaci.csv se nalazi u folderu. \n -------------------------')
+            klasa = UtezanjeStuba()
+    except IndexError:
+        print('Svaka kolona mora biti popunjena sa odgovarajucim podacima da bi skripta radila.')
+        exit()
+    return klasa
+
+def main():
+    klasa = SeizmikaPodaci()
+    klasa.Utezanje()
+    
+if __name__=="__main__":
+    main()

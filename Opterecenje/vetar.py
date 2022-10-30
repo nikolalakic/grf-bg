@@ -4,7 +4,7 @@ import numpy as np
 vb0 = float(input('Unesi osnovnu brzinu vetra vb,0 [m/s]: '))
 K = 0.2
 n = 0.5
-p = 0.02 # povradni period vetra je 50 godina
+p = 0.02 # povratni period vetra je 50 godina
 cprob = math.pow((1 - K*np.log(-np.log(1 - p)))/(1 - K*np.log(-np.log(0.98))), n)
 vb = vb0*cprob
 Cdir = 1
