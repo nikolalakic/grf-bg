@@ -6,7 +6,7 @@ import os
 class UtezanjeStuba:
 
     def __init__(self):
-        df = pd.read_csv('SeizmikaPodaci.csv', delimiter=';')
+        df = pd.read_excel('SeizmikaPodaci.xlsx')
         self.df = df
         self.finiz = np.array([0.503, 0.785, 1.13], dtype=float)/10000
         self.sniz = np.array([20, 15, 12.5, 10, 7.5], dtype=float)/100
@@ -98,15 +98,14 @@ class UtezanjeStuba:
 
 
 def SeizmikaPodaci():
+    os.chdir('BetonskeKonstrukcije')
     fajlovi = os.listdir()
     try:
-        if 'SeizmikaPodaci.csv' not in fajlovi:
-            podaci = '''Naziv platna;Normalna sila [kN];b [cm];h [cm];Marka betona fck [Mpa];Tip armature;Period oscilovanja T [s];Faktor ponasanja q0;Razmak pridrzanih sipki bi [cm];Duzina utegnutog elementa h0 [cm];Obim uzengija za pridrzavanje [cm]'''
-            os.system(f'echo "{podaci}" >> SeizmikaPodaci.csv')
-            print('\n Napravljen je fajl SeizmikaPodaci.csv, popuni tabelu u fajlu sa odgovarajucim podacima')
+        if 'SeizmikaPodaci.xlsx' not in fajlovi:
+            print("Fajl SeizmikaPodaci.xlsx se ne nalazi u folderu")
             exit()
         else:
-            print('Fajl SeizmikaPodaci.csv se nalazi u folderu. \n -------------------------')
+            print('Fajl SeizmikaPodaci.xlsx se nalazi u folderu. \n -------------------------')
             klasa = UtezanjeStuba()
     except IndexError:
         print('Svaka kolona mora biti popunjena sa odgovarajucim podacima da bi skripta radila.')

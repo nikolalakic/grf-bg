@@ -4,7 +4,7 @@ import pandas as pd
 
 class UtezanjeZida:
     def __init__(self):
-        df = pd.read_csv('SeizmikaPodaci.csv', delimiter=';')
+        df = pd.read_excel('SeizmikaPodaci.xlsx')
         self.df = df
         naziv_zida = df['Naziv platna'].to_numpy(dtype=str)
         self.naziv_zida = naziv_zida[0]
@@ -137,15 +137,14 @@ class UtezanjeZida:
             print('Trenutna duzina utezanja zida: h0 = ', round(self.h_0*100, 1), '[cm]')
 
 def SeizmikaPodaci():
+    os.chdir('BetonskeKonstrukcije')
     fajlovi = os.listdir()
     try:
-        if 'SeizmikaPodaci.csv' not in fajlovi:
-            podaci = '''Naziv platna;Normalna sila [kN];b [cm];h [cm];Marka betona fck [Mpa];Tip armature;Period oscilovanja T [s];Faktor ponasanja q0;Razmak pridrzanih sipki bi [cm];Duzina utegnutog elementa h0 [cm];Vertikalni razmak uzengija s [cm];Obim uzengija za pridrzavanje [cm];Precnik uzengije [mm]'''
-            os.system(f'echo "{podaci}" >> SeizmikaPodaci.csv')
-            print('Napravljen je fajl SeizmikaPodaci.csv, popuni tabelu u fajlu sa odgovarajucim podacima')
+        if 'SeizmikaPodaci.xlsx' not in fajlovi:
+            print("Fajl SeizmikaPodaci.xlsx se ne nalazi u folderu")
             exit()
         else:
-            print('Fajl SeizmikaPodaci.csv se nalazi u folderu. \n -------------------------')
+            print('Fajl SeizmikaPodaci.xlsx se nalazi u folderu. \n -------------------------')
             klasa = UtezanjeZida()
     except IndexError:
         print('Svaka kolona mora biti popunjena sa odgovarajucim podacima da bi skripta radila.')
