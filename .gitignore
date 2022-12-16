@@ -410,6 +410,6 @@ dmypy.json
 .gitignore
 
 #Dodato
-SeizmikaPodaci.csv
+BetonskeKonstrukcije/SeizmikaPodaci.xlsx
 .idea/
 
