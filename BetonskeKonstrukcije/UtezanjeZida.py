@@ -137,7 +137,7 @@ class UtezanjeZida:
             print('Trenutna duzina utezanja zida: h0 = ', round(self.h_0*100, 1), '[cm]')
 
 def SeizmikaPodaci():
-    os.chdir('BetonskeKonstrukcije')
+    # os.chdir('BetonskeKonstrukcije')
     fajlovi = os.listdir()
     try:
         if 'SeizmikaPodaci.xlsx' not in fajlovi:

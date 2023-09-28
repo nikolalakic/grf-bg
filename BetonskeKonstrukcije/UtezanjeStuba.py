@@ -16,6 +16,7 @@ class UtezanjeStuba:
         self.b = b[0]/100
         h = df['h [cm]'].to_numpy(dtype=float)
         self.h = h[0]/100
+        self.h0 = self.h - 0.08
         fckMPA = df['Marka betona fck [Mpa]'].to_numpy(dtype=int)
         self.fck = fckMPA[0]*1000
         self.fcd = 0.85*self.fck/1.5
@@ -24,7 +25,7 @@ class UtezanjeStuba:
         self.nied = self.NEd/(self.b * self.h * self.fcd)
         self.b0 = self.b - 0.08
         h0 = df['Duzina utegnutog elementa h0 [cm]'].to_numpy(dtype=float)
-        self.h0 = h0[0]/100
+        # self.h0 = h0[0]/100
         q0 = df['Faktor ponasanja q0'].to_numpy(dtype=float)
         self.q0 = q0[0]
         self.Tc = 0.5
@@ -98,7 +99,7 @@ class UtezanjeStuba:
 
 
 def SeizmikaPodaci():
-    os.chdir('BetonskeKonstrukcije')
+    # os.chdir('BetonskeKonstrukcije')
     fajlovi = os.listdir()
     try:
         if 'SeizmikaPodaci.xlsx' not in fajlovi:

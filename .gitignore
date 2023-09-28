@@ -408,7 +408,7 @@ dmypy.json
 .pyre/
 
 #Dodato
-BetonskeKonstrukcije/SeizmikaPodaci.xlsx
-SeizmikaPodaci.xlsx
+#BetonskeKonstrukcije/SeizmikaPodaci.xlsx
+#SeizmikaPodaci.xlsx
 BetonskeKonstrukcije/~$SeizmikaPodaci.xlsx
 .idea/
