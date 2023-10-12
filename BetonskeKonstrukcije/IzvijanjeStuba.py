@@ -47,7 +47,8 @@ class IzvijanjeStuba:
         else:
             print('\n')
             print(f'Vitkost \u03BB = {round(lda,2)} je veca od maksimalne vitkosti \u03BB_max = {round(l_max)}'
-                  f', koristi drugu metodu!')
+                  f', koristi drugu metodu!\n'
+                  f'Pretpostavljene vrednosti su vrednosti: A=0.7, B=1.1, C=0.7')
             # exit()
         return lda
 
@@ -69,7 +70,7 @@ class IzvijanjeStuba:
         m_ed = m0_ed + m2*kr
         mi_ed = round(m_ed/(math.pow(self.b0, 2)*self.h0*self.fcd), 3)
         print('\n')
-        print('Vrednosti \u03BD_Ed i \u03BC_Ed su\n\n'
+        print('Vrednosti \u03BD_Ed i \u03BC_Ed su:\n\n'
               f'\u03BD_Ed = {round(self.N0/(self.A * self.fcd), 3)}\n'
               f'\u03BC_Ed = {mi_ed}')
     # TODO Odraditi da skripta pronadje Kr iz uslova ravnoteze
@@ -82,5 +83,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
