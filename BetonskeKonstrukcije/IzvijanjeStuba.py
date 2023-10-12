@@ -7,24 +7,32 @@ class IzvijanjeStuba:
         self.M0 = float(input('Unesi moment savijanja u stubu M0 [kNm]:'))
         self.N0 = float(input('Unesi aksijalnu silu u stubu N0 [kN]:'))
         self.l0 = float(input('Unesi duzinu izvijanja stuba l0 [m]:'))
-        self.b0 = float(input('Unesi sirinu stuba za koju se kontrolise izvijanje b0 [m]:'))
+        self.b0 = float(input('Unesi sirinu stuba za koju se kontrolise izvijanje b0 [cm]:'))
+        self.b0 = self.b0/100
         if self.b0 is not None:
             self.d = self.b0 - 0.05
-            print(f'Za staticku visinu d je uzeta vrednost: d = {self.d} [m]')
-        self.h0 = float(input('Unesi visinu stuba h0 [m]:'))
+            print(f'Za staticku visinu d je uzeta vrednost: d = {self.d*100} [cm]')
+        self.h0 = float(input('Unesi visinu stuba h0 [cm]:'))
+        self.h0 = self.h0/100
         self.fck = float(input('Unesi karakteristicnu cvrstocu na pritisak betona fck [MPa]:'))
         self.A = self.h0*self.b0
         self.fcd = 0.85*self.fck*1000/1.5
 
     def moment_imperfekcije(self):
-        e0 = max(0.02, self.b0/30, self.l0/400)  # ei je ubacen kao l0/400
-        m0_ed = self.N0*e0
+        if self.M0 != 0:
+            m0_ed = self.M0 + self.N0*self.l0/400
+        elif self.M0 == 0:
+            e0 = max(0.02, self.b0 / 30, self.l0 / 400)
+            m0_ed = self.N0*e0
+        else:
+            print(f'M0 = {self.M0} nije uneta korektno')
+            exit()
         return m0_ed
 
     def kontrola_vitkosti(self):
         n = self.N0/(self.A * self.fcd)
-        l_lim = 20/math.sqrt(n)  # lambda_limit
-        l_max = 70/math.sqrt(n)  # lambda_max
+        l_lim = 20*0.7*0.7*1.1/math.sqrt(n)  # lambda_limit
+        l_max = 70*0.7*0.7*1.1/math.sqrt(n)  # lambda_max
         lda = self.l0/math.sqrt((math.pow(self.b0, 3)*self.h0/12)/self.A)  # lambda preseka
 
         if (lda > l_lim) and (lda < l_max):
@@ -38,14 +46,15 @@ class IzvijanjeStuba:
             exit()
         else:
             print('\n')
-            print(f'Vitkost \u03BB = {lda} je veca od maksimalne vitkosti \u03BB_max = {l_max}, koristi drugu metodu!')
-            exit()
+            print(f'Vitkost \u03BB = {round(lda,2)} je veca od maksimalne vitkosti \u03BB_max = {round(l_max)}'
+                  f', koristi drugu metodu!')
+            # exit()
         return lda
 
     def k_fi_koeficijent(self):
         lda = self.kontrola_vitkosti()
         beta = 0.35 + self.fck/200 - lda/150
-        k_fi = 1 + beta * 2  # fi efektivno je uzeto da je 2 sto je na strani sigurnosti
+        k_fi = 1 + beta * 2  # fi efektivno je uzeto da je 2
         return k_fi
 
     def moment_drugog_reda(self):
@@ -73,3 +82,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
