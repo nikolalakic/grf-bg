@@ -20,7 +20,7 @@ kategorija = int(input('Unesi kategoriju terena (0, 1, 2, 3, 4): '))
 
 z0 = z0_niz[kategorija]
 zmin = zmin_niz[kategorija]
-kr = kr_niz[kategorija]
+kr = 0.19 * (z0/0.05)**0.07
 cr_zmin = cr_niz[kategorija]
 
 z = float(input('Unesi visinu objekta z [m]: '))
@@ -30,6 +30,7 @@ if z > 200:
 if z < 0:
     print('z mora biti vece od 0!')
     exit()
+
 
 if zmin < z and z <=200:
     cr = kr*np.log(z/z0)
