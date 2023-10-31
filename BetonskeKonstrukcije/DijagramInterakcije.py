@@ -37,7 +37,7 @@ class DijagramInterakcije:
         # omega = omega1 + omega2
         niz_ni_Rd = np.array([])
         niz_mi_Rd = np.array([])
-        omege = np.linspace(0, 0.5, num = 2)
+        omege = np.linspace(0, 0.5, num=2)
         for omega in omege:
             omega1 = 0.5 * omega
             omega2 = 0.5 * omega
@@ -46,10 +46,10 @@ class DijagramInterakcije:
             ni_Rd = NRd/(self.fcd * 1000 * self.b * self.h)
             mi_Rd = MRd/(self.fcd * 1000 * self.b * self.h ** 2)
             niz_ni_Rd = np.append(niz_ni_Rd, ni_Rd)
-            niz_mi_Rd =  np.append(niz_mi_Rd, mi_Rd)
+            niz_mi_Rd = np.append(niz_mi_Rd, mi_Rd)
         return np.array([niz_ni_Rd, niz_mi_Rd])
 
-    #TODO Odradi za ostale prave dijagrama interakcije
+    # TODO Odradi za ostale prave dijagrama interakcije
 
     def stampa(self):
         centricni_pritisak = self.centricni_pritisak()
@@ -60,6 +60,7 @@ class DijagramInterakcije:
         plt.legend()
 
         plt.show()
+
 
 def main():
     dijagram_interakcije = DijagramInterakcije()
