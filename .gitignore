@@ -412,3 +412,4 @@ dmypy.json
 #SeizmikaPodaci.xlsx
 BetonskeKonstrukcije/~$SeizmikaPodaci.xlsx
 .idea/
+/BetonskeKonstrukcije/test.py
