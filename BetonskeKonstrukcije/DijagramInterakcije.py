@@ -9,6 +9,7 @@ class DijagramInterakcije:
         self.fck = int(input('Unesi karakteristicnu cvrstocu betona na pritisak fck [MPa]: '))
         self.fcd = 0.85 * self.fck / 1.5  # [MPa]
         self.b = float(input('Unesi sirinu preseka b [cm]: '))
+        self.b = 30
         self.b = self.b / 100
         self.h = float(input('Unesi visinu preseka h [cm]: '))
         self.h = self.h / 100
@@ -36,10 +37,14 @@ class DijagramInterakcije:
             beta2 = None
         return beta2
 
+    def gustina_omege(self):
+        omege = np.linspace(0, 0.5, num=20)
+        return omege
+
     def centricni_pritisak(self):
         niz_ni_Rd = np.array([])
         niz_mi_Rd = np.array([])
-        omege = np.linspace(0, 0.5, num=25)
+        omege = self.gustina_omege()
         for omega in omege:
             omega1 = 0.5 * omega
             omega2 = 0.5 * omega
@@ -63,7 +68,7 @@ class DijagramInterakcije:
         x = self.h
         niz_ni_Rd = np.array([])
         niz_mi_Rd = np.array([])
-        omege = np.linspace(0, 0.5, num=25)
+        omege = self.gustina_omege()
         for omega in omege:
             omega1 = 0.5 * omega
             omega2 = 0.5 * omega
@@ -89,7 +94,7 @@ class DijagramInterakcije:
             epsilon_s2 = self.epsilon_yd
         niz_ni_Rd = np.array([])
         niz_mi_Rd = np.array([])
-        omege = np.linspace(0, 0.5, num=25)
+        omege = self.gustina_omege()
         beta2 = self.beta2_koeficijent(epsilon_c2)
         for omega in omege:
             omega1 = 0.5 * omega
@@ -118,7 +123,7 @@ class DijagramInterakcije:
             epsilon_s1 = self.epsilon_yd
         niz_ni_Rd = np.array([])
         niz_mi_Rd = np.array([])
-        omege = np.linspace(0, 0.5, num=25)
+        omege = self.gustina_omege()
         beta2 = self.beta2_koeficijent(epsilon_c2)
         for omega in omege:
             omega1 = 0.5 * omega
@@ -147,7 +152,7 @@ class DijagramInterakcije:
             epsilon_s1 = self.epsilon_yd
         niz_ni_Rd = np.array([])
         niz_mi_Rd = np.array([])
-        omege = np.linspace(0, 0.5, num=25)
+        omege = self.gustina_omege()
         beta2 = self.beta2_koeficijent(epsilon_c2)
         for omega in omege:
             omega1 = 0.5 * omega
@@ -176,7 +181,7 @@ class DijagramInterakcije:
             epsilon_s1 = self.epsilon_yd
         niz_ni_Rd = np.array([])
         niz_mi_Rd = np.array([])
-        omege = np.linspace(0, 0.5, num=25)
+        omege = self.gustina_omege()
         beta2 = self.beta2_koeficijent(epsilon_c2)
         for omega in omege:
             omega1 = 0.5 * omega
@@ -195,7 +200,7 @@ class DijagramInterakcije:
         return np.array([niz_ni_Rd, niz_mi_Rd])
 
     def stampa(self):
-        # omege = np.linspace(0, 0.5, num=25)
+        omege = self.gustina_omege()
         centricni_pritisak = self.centricni_pritisak()
         granica_malog_ekscentriciteta = self.granica_malog_ekscentriciteta()
         tri_i_po_sa_dva_jedan_sedam_cetiri = self.tri_i_po_sa_dva_jedan_sedam_cetiri()
@@ -245,6 +250,15 @@ class DijagramInterakcije:
 
         plt.plot(niz_x, niz_y, color='gray')
         # cursor = mplcursors.cursor(hover=True)
+
+        niz_x = np.array([niz_x[0], niz_x[1], niz_x[2], niz_x[3], niz_x[4], niz_x[5]])
+        niz_y = np.array([niz_y[0], niz_y[1], niz_y[2], niz_y[3], niz_y[4], niz_y[5]])
+        prvi_poslednji = np.array([0, 5])
+
+        for i, (x, y) in enumerate(zip(niz_x, niz_y)):
+            for j in range(len(x)):
+                rotation = 90 if i in prvi_poslednji else 0
+                plt.text(x[j], y[j], f'{round(omege[j], 2)}', fontsize=6, verticalalignment="bottom", rotation=rotation)
 
         plt.legend()
         plt.show()
