@@ -1,12 +1,13 @@
 import math
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 
 
 class DijagramInterakcije:
     def __init__(self):
         self.fck = int(input('Unesi karakteristicnu cvrstocu betona na pritisak fck [MPa]: '))
-        self.k = float(input('Unesi % zategnute armature As1 u odnosu na ukupnu armaturu As: '))
+        self.k = float(input('Unesi % zategnute armature As1 u odnosu na ukupnu armaturu As [%]: '))
         self.k = self.k/100
         self.fcd = 0.85 * self.fck / 1.5  # [MPa]
         self.b = float(input('Unesi sirinu preseka b [cm]: '))
@@ -231,13 +232,19 @@ class DijagramInterakcije:
                  label='Ec2/Ec1 = 3.5\u2030/ 0\u2030')
         plt.plot(tri_i_po_sa_dva_jedan_sedam_cetiri[0],
                  tri_i_po_sa_dva_jedan_sedam_cetiri[1], color='black',
-                 linestyle='--', label='Ec2/Ec1 = 3.5\u2030/ -2.174\u2030')
+                 linestyle='--', label='Ec2/Es1 = 3.5\u2030/ -2.174\u2030')
         plt.plot(tri_i_po_sa_deset[0], tri_i_po_sa_deset[1], color='black',
-                 label='Ec2/Ec1 = 3.5\u2030/ -10\u2030')
+                 label='Ec2/Es1 = 3.5\u2030/ -10\u2030')
         plt.plot(tri_i_po_sa_dvadeset[0], tri_i_po_sa_dvadeset[1], color='blue',
-                 label='Ec2/Ec1 = 3.5\u2030/ -20\u2030')
+                 label='Ec2/Es1 = 3.5\u2030/ -20\u2030')
         plt.plot(tri_i_po_sa_cetrdeset[0], tri_i_po_sa_cetrdeset[1], color='magenta',
-                 label='Ec2/Ec1 = 3.5\u2030/ -40\u2030')
+                 label='Ec2/Es1 = 3.5\u2030/ -40\u2030')
+        plt.plot([], [],
+                 label=f'As1 = {self.k} * As', linestyle='-', color='black', linewidth=2, marker='>', markersize=10)
+        plt.plot([], [],
+                 label=f'As1 = {self.k} * As', linestyle='-', color='black', linewidth=2, marker='>', markersize=10)
+        plt.plot([], [],
+                 label=f'fck = {self.fck} MPa', linestyle='-', color='black', linewidth=2, marker='*', markersize=10)
 
         niz_x = np.array([centricni_pritisak[0],
                           granica_malog_ekscentriciteta[0],
@@ -257,11 +264,17 @@ class DijagramInterakcije:
         plt.plot(niz_x, niz_y, color='gray')
         # cursor = mplcursors.cursor(hover=True)
 
+        # fig, ax = plt.subplots()
+        # red_patch = mpatches.Patch(color='red', label='The red data')
+        # ax.legend(handles=[red_patch])
+
         niz_x = np.array([niz_x[0], niz_x[1], niz_x[2], niz_x[3], niz_x[4], niz_x[5]])
         niz_y = np.array([niz_y[0], niz_y[1], niz_y[2], niz_y[3], niz_y[4], niz_y[5]])
 
         tacka_ni_Ed = [self.ni_Ed]
         tacka_mi_Ed = [self.mi_Ed]
+
+
 
         plt.plot(tacka_ni_Ed, tacka_mi_Ed, marker="x", markersize=6, color="red")
 
@@ -278,6 +291,8 @@ class DijagramInterakcije:
                 plt.text(x[j], y[j], f'{round(omege[j], 2)}', fontsize=6, verticalalignment="bottom", rotation=rotation)
 
         plt.legend()
+
+
         plt.show()
 
 
