@@ -242,7 +242,7 @@ class DijagramInterakcije:
         plt.plot([], [],
                  label=f'As1 = {self.k} * As', linestyle='-', color='black', linewidth=2, marker='>', markersize=10)
         plt.plot([], [],
-                 label=f'As1 = {self.k} * As', linestyle='-', color='black', linewidth=2, marker='>', markersize=10)
+                 label=f'As2 = {1 - self.k} * As', linestyle='-', color='black', linewidth=2, marker='>', markersize=10)
         plt.plot([], [],
                  label=f'fck = {self.fck} MPa', linestyle='-', color='black', linewidth=2, marker='*', markersize=10)
 
@@ -263,11 +263,6 @@ class DijagramInterakcije:
 
         plt.plot(niz_x, niz_y, color='gray')
         # cursor = mplcursors.cursor(hover=True)
-
-        # fig, ax = plt.subplots()
-        # red_patch = mpatches.Patch(color='red', label='The red data')
-        # ax.legend(handles=[red_patch])
-
         niz_x = np.array([niz_x[0], niz_x[1], niz_x[2], niz_x[3], niz_x[4], niz_x[5]])
         niz_y = np.array([niz_y[0], niz_y[1], niz_y[2], niz_y[3], niz_y[4], niz_y[5]])
 
@@ -291,7 +286,6 @@ class DijagramInterakcije:
                 plt.text(x[j], y[j], f'{round(omege[j], 2)}', fontsize=6, verticalalignment="bottom", rotation=rotation)
 
         plt.legend()
-
 
         plt.show()
 
