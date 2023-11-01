@@ -1,5 +1,4 @@
 import math
-# import mplcursors
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -7,6 +6,8 @@ import matplotlib.pyplot as plt
 class DijagramInterakcije:
     def __init__(self):
         self.fck = int(input('Unesi karakteristicnu cvrstocu betona na pritisak fck [MPa]: '))
+        self.k = float(input('Unesi % zategnute armature As1 u odnosu na ukupnu armaturu As: '))
+        self.k = self.k/100
         self.fcd = 0.85 * self.fck / 1.5  # [MPa]
         self.b = float(input('Unesi sirinu preseka b [cm]: '))
         self.b = 30
@@ -25,6 +26,10 @@ class DijagramInterakcije:
         self.epsilon_cu2 = 0.0035
         self.alfa_1 = self.d1 / self.h
         self.alfa_2 = self.d2 / self.h
+        self.MEd = float(input('Unesi vrednost momenta MEd [kN]: '))
+        self.NEd = float(input('Unesi vrednost aksijalne sile NEd [kN](+ je pritisak): '))
+        self.mi_Ed = self.MEd / (self.b * self.h ** 2 * self.fcd * 1000)
+        self.ni_Ed = self.NEd / (self.b * self.h * self.fcd * 1000)
 
     @staticmethod
     def beta2_koeficijent(epsilon_c2):
@@ -37,7 +42,8 @@ class DijagramInterakcije:
             beta2 = None
         return beta2
 
-    def gustina_omege(self):
+    @staticmethod
+    def gustina_omege():
         omege = np.linspace(0, 0.5, num=20)
         return omege
 
@@ -70,8 +76,8 @@ class DijagramInterakcije:
         niz_mi_Rd = np.array([])
         omege = self.gustina_omege()
         for omega in omege:
-            omega1 = 0.5 * omega
-            omega2 = 0.5 * omega
+            omega1 = self.k * omega
+            omega2 = (1 - self.k) * omega
             As1 = omega1 * self.b * self.h * self.fcd / self.fyd
             As2 = omega2 * self.b * self.h * self.fcd / self.fyd
             Fc = 0.81 * 1 / (1 - self.alfa_1) * self.d * self.b * self.fcd * 1000  # [kN]
@@ -97,8 +103,8 @@ class DijagramInterakcije:
         omege = self.gustina_omege()
         beta2 = self.beta2_koeficijent(epsilon_c2)
         for omega in omege:
-            omega1 = 0.5 * omega
-            omega2 = 0.5 * omega
+            omega1 = self.k * omega
+            omega2 = (1 - self.k) * omega
             As1 = omega1 * self.b * self.h * self.fcd / self.fyd
             As2 = omega2 * self.b * self.h * self.fcd / self.fyd
             Fc = 0.81 * x * self.b * self.fcd * 1000  # [kN]
@@ -126,8 +132,8 @@ class DijagramInterakcije:
         omege = self.gustina_omege()
         beta2 = self.beta2_koeficijent(epsilon_c2)
         for omega in omege:
-            omega1 = 0.5 * omega
-            omega2 = 0.5 * omega
+            omega1 = self.k * omega
+            omega2 = (1 - self.k) * omega
             As1 = omega1 * self.b * self.h * self.fcd / self.fyd
             As2 = omega2 * self.b * self.h * self.fcd / self.fyd
             Fc = 0.81 * x * self.b * self.fcd * 1000  # [kN]
@@ -155,8 +161,8 @@ class DijagramInterakcije:
         omege = self.gustina_omege()
         beta2 = self.beta2_koeficijent(epsilon_c2)
         for omega in omege:
-            omega1 = 0.5 * omega
-            omega2 = 0.5 * omega
+            omega1 = self.k * omega
+            omega2 = (1 - self.k) * omega
             As1 = omega1 * self.b * self.h * self.fcd / self.fyd
             As2 = omega2 * self.b * self.h * self.fcd / self.fyd
             Fc = 0.81 * x * self.b * self.fcd * 1000  # [kN]
@@ -184,8 +190,8 @@ class DijagramInterakcije:
         omege = self.gustina_omege()
         beta2 = self.beta2_koeficijent(epsilon_c2)
         for omega in omege:
-            omega1 = 0.5 * omega
-            omega2 = 0.5 * omega
+            omega1 = self.k * omega
+            omega2 = (1 - self.k) * omega
             As1 = omega1 * self.b * self.h * self.fcd / self.fyd
             As2 = omega2 * self.b * self.h * self.fcd / self.fyd
             Fc = 0.81 * x * self.b * self.fcd * 1000  # [kN]
@@ -253,11 +259,22 @@ class DijagramInterakcije:
 
         niz_x = np.array([niz_x[0], niz_x[1], niz_x[2], niz_x[3], niz_x[4], niz_x[5]])
         niz_y = np.array([niz_y[0], niz_y[1], niz_y[2], niz_y[3], niz_y[4], niz_y[5]])
-        prvi_poslednji = np.array([0, 5])
+
+        tacka_ni_Ed = [self.ni_Ed]
+        tacka_mi_Ed = [self.mi_Ed]
+
+        plt.plot(tacka_ni_Ed, tacka_mi_Ed, marker="x", markersize=6, color="red")
 
         for i, (x, y) in enumerate(zip(niz_x, niz_y)):
             for j in range(len(x)):
-                rotation = 90 if i in prvi_poslednji else 0
+                if i == 0:
+                    rotation = 90
+                elif i == 4:
+                    rotation = 45
+                elif i == 5:
+                    rotation = 45
+                else:
+                    rotation = 0
                 plt.text(x[j], y[j], f'{round(omege[j], 2)}', fontsize=6, verticalalignment="bottom", rotation=rotation)
 
         plt.legend()
