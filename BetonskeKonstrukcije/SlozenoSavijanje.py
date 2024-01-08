@@ -95,9 +95,9 @@ def ekscentricnoopterecenje(NEd, h):
         e = MEd/NEd
         As = NEd/fyd*10
         if e != 0:
-            d1 = float(input('Unesi rastojanje to tezista zategnute armature d1 [cm]: '))
+            d1 = float(input('Unesi rastojanje od zategnute ivice betona do tezista zategnute armature d1 [cm]: '))
             d1 = d1/100
-            d2 = float(input('Unesi rastojanje do tezista armature na drugoj ivici d2 [cm]: '))
+            d2 = float(input('Unesi rastojanje od pritisnute ivice  betona do tezista pritisnute armature d2 [cm]: '))
             d2 = d2/100
             c1 = h/2 - d1
             c2 = h/2 - d2
@@ -117,7 +117,7 @@ def uticajiarmatura(MEd, NEd):
     if MEd != 0:
         ecu2 = 3.5
         ec2 = ecu2
-        d1 = float(input('Unesi rastojanje do tezista zategnute armature d1 [cm]: '))
+        d1 = float(input('Unesi rastojanje od zategnute ivice betona do tezista zategnute armature d1 [cm]: '))
         d1 = d1/100
         d = h-d1
         MEdu = MEd+NEd*((h)/2-d1)
