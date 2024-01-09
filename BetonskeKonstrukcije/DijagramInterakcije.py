@@ -1,7 +1,6 @@
 import math
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
 
 
 class DijagramInterakcije:
@@ -268,9 +267,6 @@ class DijagramInterakcije:
 
         tacka_ni_Ed = [self.ni_Ed]
         tacka_mi_Ed = [self.mi_Ed]
-
-
-
         plt.plot(tacka_ni_Ed, tacka_mi_Ed, marker="x", markersize=6, color="red")
 
         for i, (x, y) in enumerate(zip(niz_x, niz_y)):
