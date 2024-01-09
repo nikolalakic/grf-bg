@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import os
 
+
 class UtezanjeStuba:
 
     def __init__(self):
@@ -24,7 +25,7 @@ class UtezanjeStuba:
         self.esyd = 0.002174
         self.nied = self.NEd/(self.b * self.h * self.fcd)
         self.b0 = self.b - 0.08
-        h0 = df['Duzina utegnutog elementa h0 [cm]'].to_numpy(dtype=float)
+        # h0 = df['Duzina utegnutog elementa h0 [cm]'].to_numpy(dtype=float)
         # self.h0 = h0[0]/100
         q0 = df['Faktor ponasanja q0'].to_numpy(dtype=float)
         self.q0 = q0[0]
@@ -43,8 +44,8 @@ class UtezanjeStuba:
         elif self.tip_armature == 'B500C':
             koeficijent = 1
         else:
-            print('\nTip armature mora biti B500B ili B500C, unesi jednu od dve vrednosti u odgovarajucu kolonu tabele.')
-            koeficijent = None
+            print('\nTip armature mora biti B500B ili B500C, '
+                  'unesi jednu od dve vrednosti u odgovarajucu kolonu tabele.')
             exit()
         return koeficijent
        
@@ -65,7 +66,7 @@ class UtezanjeStuba:
             print('\nPrimenjuju se pravila iz EC2!')
             exit()
         else:
-            print('Normalizovana sila \u03BD,Ed = ',self.nied,  '<= 0.65   OK!')
+            print('Normalizovana sila \u03BD,Ed = ', self.nied,  '<= 0.65   OK!')
             mfi = self.Mfi()
             bi_niz = self.df['Razmak pridrzanih sipki bi [cm]'].to_numpy(dtype=float)
             bi_niz = bi_niz/100
@@ -83,11 +84,11 @@ class UtezanjeStuba:
                     alfa_omegawdreq = 30 * mfi * self.nied * self.esyd * self.b / self.b0 - 0.035
                     omegawdreq = alfa_omegawdreq/alfa
                     precnik = math.sqrt(4*x/math.pi)*1000
-                    if (omegawdprov >= omegawdreq):
-                        print('\n\u03C6 = ',round(precnik, 0), 'na s =', p*100,'[cm]'+ '............OK!')
+                    if omegawdprov >= omegawdreq:
+                        print('\n\u03C6 = ', round(precnik, 0), 'na s =', p*100, '[cm]' + '............OK!')
                         break
                     else:
-                        print("\n\u03C6 =", round(precnik, 0),'na s =', p*100,'[cm]'+ ' ne zadovoljava!')
+                        print("\n\u03C6 =", round(precnik, 0), 'na s =', p*100, '[cm]' + ' ne zadovoljava!')
                         if x == 1.13*math.pow(10, -4) and p == 7.5/100:
                             print('\n>>>>>Nedovoljno utezanje stuba!')
             print('omegawdprov = ', omegawdprov)
@@ -98,7 +99,7 @@ class UtezanjeStuba:
             print('alfa_omega = ', alfa_omegawdreq)
 
 
-def SeizmikaPodaci():
+def seizmikapodaci():
     # os.chdir('BetonskeKonstrukcije')
     fajlovi = os.listdir()
     try:
@@ -113,9 +114,11 @@ def SeizmikaPodaci():
         exit()
     return klasa
 
+
 def main():
-    klasa = SeizmikaPodaci()
+    klasa = seizmikapodaci()
     klasa.Utezanje()
+
     
-if __name__=="__main__":
+if __name__ == "__main__":
     main()
