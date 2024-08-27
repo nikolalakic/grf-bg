@@ -19,7 +19,7 @@ ro = Asreq/(b*d)
 
 if ro <= ro0:
     granica = K*(11 + 1.5*math.sqrt(fckMPA)*ro0/ro + 3.2*math.sqrt(fckMPA)*math.pow(ro0/ro - 1, 3/2))
-elif ro > ro0:
+else:
     roprim = float(input('Unesi procenat armiranja pritisnute armature \u03C1` [%]: '))
     roprim = roprim/100
     granica = K*(11 + 1.5*math.sqrt(fckMPA)*ro0/(ro - roprim) + 1/12*math.sqrt(fckMPA)*math.sqrt(roprim/ro0))
