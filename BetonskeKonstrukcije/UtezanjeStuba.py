@@ -54,10 +54,11 @@ class UtezanjeStuba:
         Tc = 0.5
         if self.T > Tc:
             mfi = koeficijent * (2 * self.q0 - 1)
+            print('Normalizovana sila \u03BD,Ed = ', self.nied,  '<= 0.65   OK!')
         else:
             mfi = koeficijent * (1 + 2 * (self.q0 - 1))
         return mfi
-     
+
     def Utezanje(self):
         if self.nied > 0.65:
             print('Normalizovana sila \u03BD,Ed je veca od 0.65! Povecaj marku betona ili dimenzije stuba!')
@@ -66,7 +67,6 @@ class UtezanjeStuba:
             print('\nPrimenjuju se pravila iz EC2!')
             exit()
         else:
-            print('Normalizovana sila \u03BD,Ed = ', self.nied,  '<= 0.65   OK!')
             mfi = self.Mfi()
             bi_niz = self.df['Razmak pridrzanih sipki bi [cm]'].to_numpy(dtype=float)
             bi_niz = bi_niz/100
