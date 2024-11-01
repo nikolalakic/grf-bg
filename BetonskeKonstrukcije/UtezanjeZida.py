@@ -119,6 +119,8 @@ class UtezanjeZida:
         alfa_omegad_req = self.alfa_omega_dreq()
         lc_mreq = self.Minimalna_Duzina_Utezanja()
         alfa = self.Alfa()
+        alfa_s = self.Alfa_s()
+        alfa_n = self.Alfa_n()
         Vco = self.b_0 * self.h_0 * self.s
         Vsw = self.a1_uz * self.obim_uzengija
         omega_d_prov = Vsw * self.fyd/(Vco * self.fcd)
@@ -131,10 +133,22 @@ class UtezanjeZida:
             print("Potrebno je smanjiti stepen utezanja kraja zida ili produziti ivicni element! \n")
             print('Potrebna duzina utezanja kraja zida: lc_req = ', round(lc_req*100, 1), '[cm]')
             print('Trenutna duzina utezanja zida: h0 = ', round(self.h_0*100, 1), '[cm]')
+            print('alfa_s = ', alfa_s)
+            print('alfa_n = ', alfa_n)
+            print('alfa = ', alfa)
+            print('omega_d_prov = ', omega_d_prov)
+            print('alfa_omegad_req = ', alfa_omegad_req)
+            print('omega_d_req = ', alfa_omegad_req/alfa)
         else:
             print('Dovoljno utegnut kraj zida! \n')
             print('Potrebna duzina utezanja kraja zida: lc_req = ', round(lc_req*100, 1), '[cm]')
             print('Trenutna duzina utezanja zida: h0 = ', round(self.h_0*100, 1), '[cm]')
+            print('alfa_s = ', alfa_s)
+            print('alfa_n = ', alfa_n)
+            print('alfa = ', alfa)
+            print('omega_d_prov = ', omega_d_prov)
+            print('alfa_omegad_req = ', alfa_omegad_req)
+            print('omega_d_req = ', alfa_omegad_req/alfa)
 
 def SeizmikaPodaci():
     # os.chdir('BetonskeKonstrukcije')

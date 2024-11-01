@@ -12,7 +12,7 @@ class UtezanjeStuba:
         self.finiz = np.array([0.503, 0.785, 1.13], dtype=float)/10000
         self.sniz = np.array([20, 15, 12.5, 10, 7.5], dtype=float)/100
         NEd = df['Normalna sila [kN]'].to_numpy(dtype=float)
-        self.NEd = NEd[0]
+        self.NEd = abs(NEd[0])
         b = df['b [cm]'].to_numpy(dtype=float)
         self.b = b[0]/100
         h = df['h [cm]'].to_numpy(dtype=float)
@@ -51,7 +51,7 @@ class UtezanjeStuba:
        
     def Mfi(self):
         koeficijent = self.Armatura()
-        Tc = 0.5
+        Tc = 0.4
         if self.T > Tc:
             mfi = koeficijent * (2 * self.q0 - 1)
             print('Normalizovana sila \u03BD,Ed = ', self.nied,  '<= 0.65   OK!')
@@ -92,9 +92,9 @@ class UtezanjeStuba:
                         if x == 1.13*math.pow(10, -4) and p == 7.5/100:
                             print('\n>>>>>Nedovoljno utezanje stuba!')
             print('omegawdprov = ', omegawdprov)
-            print('omegapwdreq = ', omegawdreq)
-            print('alfas = ', alfas)
-            print('alfan = ', alfan)
+            print('omegawdreq = ', omegawdreq)
+            print('alfa_s = ', alfas)
+            print('alfa_n = ', alfan)
             print('alfa = ', alfa)
             print('alfa_omega = ', alfa_omegawdreq)
 
