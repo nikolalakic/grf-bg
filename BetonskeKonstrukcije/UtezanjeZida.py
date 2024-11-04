@@ -109,7 +109,7 @@ class UtezanjeZida:
         lc_mreq = xu * (1 - 0.0035/epsilon_cu2_c)
         if lc_mreq < max(0.15 * self.h, 1.5 * self.b):
             lc_mreq = max(0.15 * self.h, 1.5 * self.b)
-            print(f'Minimalna duzina utegnutog elementa ', lc_mreq*100, ' [cm]')
+            print(f'Minimalna duzina utegnutog elementa ', round(lc_mreq*100,1), ' [cm]')
         else:
             pass
         return lc_mreq
@@ -133,6 +133,7 @@ class UtezanjeZida:
             print("Potrebno je smanjiti stepen utezanja kraja zida ili produziti ivicni element! \n")
             print('Potrebna duzina utezanja kraja zida: lc_req = ', round(lc_req*100, 1), '[cm]')
             print('Trenutna duzina utezanja zida: h0 = ', round(self.h_0*100, 1), '[cm]')
+            print('Minimalna potrebna duzina utezanja zida: lc_mreq = ', round(lc_mreq*100,1), '[cm]')
             print('alfa_s = ', alfa_s)
             print('alfa_n = ', alfa_n)
             print('alfa = ', alfa)
@@ -141,6 +142,7 @@ class UtezanjeZida:
             print('omega_d_req = ', alfa_omegad_req/alfa)
         else:
             print('Dovoljno utegnut kraj zida! \n')
+            print('\u03BD,Ed = ', self.ni)
             print('Potrebna duzina utezanja kraja zida: lc_req = ', round(lc_req*100, 1), '[cm]')
             print('Trenutna duzina utezanja zida: h0 = ', round(self.h_0*100, 1), '[cm]')
             print('alfa_s = ', alfa_s)
