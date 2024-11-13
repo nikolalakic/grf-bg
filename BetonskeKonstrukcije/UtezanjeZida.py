@@ -109,7 +109,6 @@ class UtezanjeZida:
         lc_mreq = xu * (1 - 0.0035/epsilon_cu2_c)
         if lc_mreq < max(0.15 * self.h, 1.5 * self.b):
             lc_mreq = max(0.15 * self.h, 1.5 * self.b)
-            print(f'Minimalna duzina utegnutog elementa ', round(lc_mreq*100,1), ' [cm]')
         else:
             pass
         return lc_mreq
